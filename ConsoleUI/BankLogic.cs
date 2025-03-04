@@ -10,9 +10,33 @@ namespace ConsoleUI
 {
     public static class BankLogic
     {
-        public static void TransferFunds()
+        public static AccountModel TransferFunds(string accountNumber, AccountModel account)
         {
+            string accountNumText;
+            Console.WriteLine("What account are transferring from: ");
+            accountNumText = Console.ReadLine();
 
+            
+            if(accountNumber == account.AccountNumber)
+            {
+                // withdraw from the account im transferring from
+                Withdraw(account);
+
+                // deposit into the account i want to transfer to
+                Console.Write("What account are you transferring to: ");
+                accountNumText = Console.ReadLine();
+                if (accountNumText == account.AccountNumber)
+                {
+                    Deposit(account);
+                }
+               
+
+            } else
+            {
+                Console.WriteLine("Account number does not exist or is invalid");
+            }
+
+                return account;
         }
 
         public static void CalculateInterest(AccountModel account)

@@ -17,12 +17,12 @@ namespace ConsoleUI
             AccountModel checkingAccount = new AccountModel();
             checkingAccount = BankLogic.CreateAccount();
 
-            AccountModel savingsAccount = new AccountModel();
-            savingsAccount = BankLogic.CreateAccount();
+            //AccountModel savingsAccount = new AccountModel();
+            //savingsAccount = BankLogic.CreateAccount();
 
             //BankLogic.CalculateInterest(checkingAccount);
 
-          
+            Console.Write("What the account number your want to transfer too: ");
 
 
             Console.ReadLine();
