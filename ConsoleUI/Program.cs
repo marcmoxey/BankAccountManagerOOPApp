@@ -31,9 +31,17 @@ namespace ConsoleUI
                 Console.WriteLine($"Account Number: {account.AccountNumber}, Owner: {account.OwnerName}, Balance: ${account.Balance}");
             }
 
-            //BankLogic.CalculateInterest(checkingAccount);
+            Console.WriteLine();
+            BankLogic.CalculateInterest(checkingAccount);
+            Console.WriteLine();
 
-      
+
+            // Perform a transfer
+            Console.WriteLine("\nStarting transfer process...");
+            Console.Write("Enter the source account number: ");
+            string sourceAccountNumber = Console.ReadLine();
+
+            BankLogic.TransferFunds(accounts, sourceAccountNumber);
 
             Console.ReadLine();
         }

@@ -13,7 +13,7 @@ namespace ConsoleUI
     {
         public static void TransferFunds(List<AccountModel> accounts, string sourceAccountNumber)
         {
-            Console.WriteLine("What account are you transferring from: ");
+            Console.Write("What account are you transferring from: ");
             string sourceAccountNumText = Console.ReadLine();
 
             // Find the source account
