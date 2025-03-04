@@ -11,19 +11,29 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             UserMessages.WelcomeMessage();
-            string userInput = Console.ReadLine();
+            string userInput;
 
             // Create Accounts
             AccountModel checkingAccount = new AccountModel();
             checkingAccount = BankLogic.CreateAccount();
 
-            //AccountModel savingsAccount = new AccountModel();
-            //savingsAccount = BankLogic.CreateAccount();
+            AccountModel savingsAccount = new AccountModel();
+            savingsAccount = BankLogic.CreateAccount();
+
+            List<AccountModel> accounts = new List<AccountModel>();
+            accounts.Add(checkingAccount);
+            accounts.Add(savingsAccount);
+
+            // Display account details
+            Console.WriteLine("Accounts created successfully:");
+            foreach (var account in accounts)
+            {
+                Console.WriteLine($"Account Number: {account.AccountNumber}, Owner: {account.OwnerName}, Balance: ${account.Balance}");
+            }
 
             //BankLogic.CalculateInterest(checkingAccount);
 
-            Console.Write("What the account number your want to transfer too: ");
-
+      
 
             Console.ReadLine();
         }

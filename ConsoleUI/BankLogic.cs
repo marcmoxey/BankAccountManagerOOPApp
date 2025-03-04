@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Principal;
@@ -10,33 +11,59 @@ namespace ConsoleUI
 {
     public static class BankLogic
     {
-        public static AccountModel TransferFunds(string accountNumber, AccountModel account)
+        public static void TransferFunds(List<AccountModel> accounts, string sourceAccountNumber)
         {
-            string accountNumText;
-            Console.WriteLine("What account are transferring from: ");
-            accountNumText = Console.ReadLine();
+            Console.WriteLine("What account are you transferring from: ");
+            string sourceAccountNumText = Console.ReadLine();
 
-            
-            if(accountNumber == account.AccountNumber)
+            // Find the source account
+            AccountModel sourceAccount = accounts.FirstOrDefault(a => a.AccountNumber == sourceAccountNumText);
+
+            if (sourceAccount == null)
             {
-                // withdraw from the account im transferring from
-                Withdraw(account);
-
-                // deposit into the account i want to transfer to
-                Console.Write("What account are you transferring to: ");
-                accountNumText = Console.ReadLine();
-                if (accountNumText == account.AccountNumber)
-                {
-                    Deposit(account);
-                }
-               
-
-            } else
-            {
-                Console.WriteLine("Account number does not exist or is invalid");
+                Console.WriteLine("Source account number does not exist or is invalid.");
+                return;
             }
 
-                return account;
+            Console.Write("What account are you transferring to: ");
+            string destinationAccountNumText = Console.ReadLine();
+
+            // Find the destination account
+            AccountModel destinationAccount = accounts.FirstOrDefault(a => a.AccountNumber == destinationAccountNumText);
+            if (destinationAccount == null) 
+            {
+                Console.WriteLine("Destination account number does not exist or is invalid.");
+                return;
+            }
+
+            Console.Write("Enter the amount to transfer: ");
+            string amountText = Console.ReadLine();
+            double amount;
+            bool isValidAmount = double.TryParse(amountText, out amount);
+
+            if (!isValidAmount || amount <= 0)
+            {
+                Console.WriteLine("Invalid amount. Please enter a positive number.");
+                return ;
+            }
+
+            // check if the source account has enough balance 
+            if (sourceAccount.Balance < amount) 
+            {
+                Console.WriteLine("Insufficient funds in the source account.");
+                return;
+            }
+
+            // Perform the transfer
+            sourceAccount.Balance -= amount;
+            destinationAccount.Balance += amount;
+
+
+            Console.WriteLine($"Transfer of ${amount} from account {sourceAccount.AccountNumber} to account {destinationAccount.AccountNumber} completed successfully.");
+            Console.WriteLine($"Source account balance: ${sourceAccount.Balance}");
+            Console.WriteLine($"Destination account balance: ${destinationAccount.Balance}");
+
+
         }
 
         public static void CalculateInterest(AccountModel account)
@@ -150,5 +177,7 @@ namespace ConsoleUI
             Console.WriteLine($"You deposit {depositAmount}");
             Console.WriteLine($"Current balance is {account.Balance}");
         }
+
+
     }
 }
